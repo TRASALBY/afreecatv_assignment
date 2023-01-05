@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="broad"
+            type="com.example.afreecatvassignment.ui.model.BroadUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +27,7 @@
                 android:id="@+id/iv_broad_thumb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@{broad.broadThumb}"
                 tools:src="@drawable/ic_launcher_background" />
         </com.google.android.material.card.MaterialCardView>
 

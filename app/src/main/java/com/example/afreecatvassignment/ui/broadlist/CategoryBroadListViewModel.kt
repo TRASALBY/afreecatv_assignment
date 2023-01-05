@@ -1,5 +1,6 @@
 package com.example.afreecatvassignment.ui.broadlist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.afreecatvassignment.data.repository.BroadRemoteRepository
@@ -15,6 +16,10 @@ class CategoryBroadListViewModel @Inject constructor(
         viewModelScope.launch {
             val a = broadRemoteRepository.getCategoryList()
             val b = broadRemoteRepository.getBroadList()
+
+            a.forEach{
+                Log.d("categoryName",it.categoryName)
+            }
             println()
         }
     }
