@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface BroadRemoteRepository {
     suspend fun getCategoryList(): List<BroadCategoryUiModel>
-    suspend fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>>
+    fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>>
 }

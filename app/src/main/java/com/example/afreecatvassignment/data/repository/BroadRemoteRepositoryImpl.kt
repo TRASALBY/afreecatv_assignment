@@ -22,7 +22,7 @@ class BroadRemoteRepositoryImpl @Inject constructor(
         return broadRemoteDataSource.getCategoryList().toBroadCategoryUiModel()
     }
 
-    override suspend fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>> =
+    override fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>> =
         Pager(
             PagingConfig(
                 pageSize = PAGE_SIZE

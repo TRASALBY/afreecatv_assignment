@@ -25,5 +25,5 @@ data class BroadItem(
     @SerializedName("broad_thumb")
     val broadThumb: String,
     @SerializedName("total_view_cnt")
-    val totalViewCount: String
+    val totalViewCount: Int
 )

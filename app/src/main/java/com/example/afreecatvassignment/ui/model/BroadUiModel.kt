@@ -7,5 +7,5 @@ data class BroadUiModel(
     val userNickName: String,
     val profileImage: String,
     val broadThumb: String,
-    val totalViewCount: String
+    val totalViewCount: Int
 )

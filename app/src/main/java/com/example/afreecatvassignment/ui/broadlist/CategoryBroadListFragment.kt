@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.afreecatvassignment.databinding.FragmentCategoryBroadListBinding
 import com.example.afreecatvassignment.ui.broadlist.adapter.BroadPagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryBroadListFragment : Fragment() {
@@ -16,6 +21,8 @@ class CategoryBroadListFragment : Fragment() {
     private var _binding: FragmentCategoryBroadListBinding? = null
     private val binding
         get() = checkNotNull(_binding) { "binding was accessed outside of view lifecycle" }
+
+    private lateinit var broadAdapter: BroadPagingAdapter
 
     private val viewModel: CategoryBroadListViewModel by viewModels()
     override fun onCreateView(
@@ -28,13 +35,25 @@ class CategoryBroadListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
+        setRecyclerView()
+        collectBroadList()
     }
 
-    private fun setAdapter() {
-        val adapter = BroadPagingAdapter()
-        binding.rvBroadList.adapter = adapter
+    private fun setRecyclerView() {
+        broadAdapter = BroadPagingAdapter()
+        binding.rvBroadList.adapter = broadAdapter
     }
+
+    private fun collectBroadList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getBroadList("00330000").collectLatest { pagingData ->
+                    broadAdapter.submitData(pagingData)
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         _binding = null

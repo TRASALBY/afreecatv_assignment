@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="broad"
             type="com.example.afreecatvassignment.ui.model.BroadUiModel" />
@@ -39,6 +40,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="@{broad.broadTitle}"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_broad_thumb"
@@ -59,6 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:text="@{broad.userNickName}"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_bj_profile"
@@ -70,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
+            android:text="@{String.format(@string/view_count_format,broad.totalViewCount)}"
             android:textSize="12sp"
             app:drawableStartCompat="@drawable/ic_viewer"
             app:layout_constraintEnd_toEndOf="parent"

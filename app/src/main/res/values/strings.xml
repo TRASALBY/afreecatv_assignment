@@ -3,4 +3,5 @@
     <string name="talking">토크/캠방</string>
     <string name="eating_and_cooking">먹방/요리</string>
     <string name="music">음악</string>
+    <string name="view_count_format">%,d</string>
 </resources>
