@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,33 +19,20 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideAfreecaApiService(retrofit: Retrofit): AfreecaApiService =
-        retrofit.create(AfreecaApiService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
-    ): Retrofit {
+    fun provideAfreecaApiService(
+        okHttpClient: OkHttpClient
+    ): AfreecaApiService {
         return Retrofit.Builder()
-            .baseUrl("https://openapi.afreecatv.com/")
-            .addConverterFactory(gsonConverterFactory)
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(AfreecaApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideGsonConvertFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(
-        customInterceptor: Interceptor
-    ): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -56,20 +42,11 @@ class ApiModule {
         return OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(customInterceptor)
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideCustomInterceptor(): Interceptor = Interceptor { chain ->
-        chain.run {
-            proceed(
-                request()
-                    .newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .build()
-            )
-        }
+    companion object {
+        const val BASE_URL = "https://openapi.afreecatv.com/"
     }
+
 }

@@ -9,7 +9,9 @@ import com.example.afreecatvassignment.databinding.FragmentBroadListBinding
 import com.example.afreecatvassignment.ui.broadlist.adapter.BroadCategoryAdapter
 import com.example.afreecatvassignment.ui.model.BroadCategory
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BroadListFragment : Fragment() {
 
     private var _binding: FragmentBroadListBinding? = null

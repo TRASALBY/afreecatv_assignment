@@ -15,9 +15,7 @@ interface AfreecaApiService {
 
     @GET("broad/list")
     suspend fun getBroadList(
-        @Query("client_id") clientId: String = CLIENT_ID,
-        @Query("select_value") selectValue: Int,
-        @Query("page_no") page: Int
+        @Query("client_id") clientId: String = CLIENT_ID
     ): AfreecaBroadListResponse
 
     companion object {

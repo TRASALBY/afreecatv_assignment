@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class AfreecaBroadListResponse(
     @SerializedName("total_cnt")
     val totalCount: Int,
-    @SerializedName("total_cnt")
+    @SerializedName("page_no")
     val page: Int,
     @SerializedName("broad")
-    val broadList: List<Broad>
+    val broadItemList: List<BroadItem>
 )
 
-data class Broad(
+data class BroadItem(
     @SerializedName("broad_title")
     val broadTitle: String,
     @SerializedName("broad_no")
