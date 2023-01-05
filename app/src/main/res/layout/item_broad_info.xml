@@ -13,11 +13,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_margin="8dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_broad_thumb"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,9 +26,10 @@
 
             <ImageView
                 android:id="@+id/iv_broad_thumb"
+                bind_image_url="@{broad.broadThumb}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{broad.broadThumb}"
+                android:scaleType="fitXY"
                 tools:src="@drawable/ic_launcher_background" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -37,11 +38,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{broad.broadTitle}"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/iv_bj_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_broad_thumb"
             app:layout_constraintTop_toTopOf="@id/cv_broad_thumb"
@@ -49,9 +50,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_bj_profile"
+            bind_image_url="@{broad.profileImage}"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_broad_thumb"
             app:layout_constraintStart_toStartOf="@id/tv_broad_title"
             app:layout_constraintTop_toBottomOf="@id/tv_broad_title"
             tools:src="@drawable/ic_launcher_background" />
@@ -63,12 +66,14 @@
             android:layout_marginStart="8dp"
             android:text="@{broad.userNickName}"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_total_view_count"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_bj_profile"
             app:layout_constraintTop_toTopOf="@id/iv_bj_profile"
             tools:text="BJ이름" />
 
         <TextView
+            android:id="@+id/tv_total_view_count"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -76,6 +81,7 @@
             android:text="@{String.format(@string/view_count_format,broad.totalViewCount)}"
             android:textSize="12sp"
             app:drawableStartCompat="@drawable/ic_viewer"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bj_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_bj_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_bj_name"
