@@ -1,7 +1,8 @@
-package com.example.afreecatvassignment
+package com.example.afreecatvassignment.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.afreecatvassignment.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
