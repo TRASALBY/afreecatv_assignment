@@ -39,7 +39,12 @@ class BroadRemotePagingSource @Inject constructor(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, BroadItem>): Int? = null
+    override fun getRefreshKey(state: PagingState<Int, BroadItem>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
 
     companion object {
         private const val STARTING_KEY = 1

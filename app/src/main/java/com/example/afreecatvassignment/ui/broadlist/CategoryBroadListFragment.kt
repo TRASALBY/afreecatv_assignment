@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import com.example.afreecatvassignment.databinding.FragmentCategoryBroadListBinding
 import com.example.afreecatvassignment.ui.broadlist.adapter.BroadPagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +38,23 @@ class CategoryBroadListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        setSwipeRefresh()
         collectBroadList()
+    }
+
+    private fun setSwipeRefresh() {
+        binding.srlCategoryBroad.setOnRefreshListener {
+            broadAdapter.refresh()
+            binding.srlCategoryBroad.isRefreshing = false
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                broadAdapter.loadStateFlow.collect {
+                    binding.piCategoryBroad.isVisible = it.source.append is LoadState.Loading
+                }
+            }
+        }
     }
 
     private fun setRecyclerView() {
