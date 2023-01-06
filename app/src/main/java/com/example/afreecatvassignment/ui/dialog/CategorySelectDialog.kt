@@ -11,11 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.afreecatvassignment.R
 import com.example.afreecatvassignment.databinding.DialogCategorySelectBinding
+import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CategorySelectDialog : DialogFragment() {
+class CategorySelectDialog(
+    private val categorySelectCompleteListener: CategorySelectCompleteListener
+) : DialogFragment(), CategorySelectAdapter.CategoryChangeListener {
 
     private var _binding: DialogCategorySelectBinding? = null
     private val binding
@@ -25,9 +28,14 @@ class CategorySelectDialog : DialogFragment() {
 
     private lateinit var categorySelectAdapter: CategorySelectAdapter
 
+    interface CategorySelectCompleteListener {
+        fun onCategorySelectComplete(categories: List<BroadCategoryUiModel>)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.categorySelect)
+        isCancelable = true
     }
 
     override fun onCreateView(
@@ -42,7 +50,15 @@ class CategorySelectDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        setCompletedBtn()
         observeCategories()
+    }
+
+    private fun setCompletedBtn() {
+        binding.btnSelectCategory.setOnClickListener {
+            categorySelectCompleteListener.onCategorySelectComplete(viewModel.selectedCategories.value)
+            dismiss()
+        }
     }
 
     private fun observeCategories() {
@@ -56,7 +72,7 @@ class CategorySelectDialog : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedCategories.collect {
-                    if (it.size == CategorySelectViewModel.MAX_SELECT_COUNT) {
+                    if (it.size >= MAX_SELECT_COUNT) {
                         binding.btnSelectCategory.isEnabled = true
                     }
                 }
@@ -65,7 +81,16 @@ class CategorySelectDialog : DialogFragment() {
     }
 
     private fun setRecyclerView() {
-        categorySelectAdapter = CategorySelectAdapter()
+        categorySelectAdapter = CategorySelectAdapter(this)
         binding.rvCategoryList.adapter = categorySelectAdapter
+    }
+
+    override fun onCategoryChangeListener(category: BroadCategoryUiModel, checked: Boolean) {
+        viewModel.changeCategorySelected(category, checked)
+    }
+
+
+    companion object {
+        const val MAX_SELECT_COUNT = 3
     }
 }

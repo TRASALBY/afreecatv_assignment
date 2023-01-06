@@ -26,7 +26,19 @@ class CategorySelectViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        const val MAX_SELECT_COUNT = 3
+    fun changeCategorySelected(categoryUiModel: BroadCategoryUiModel, checked: Boolean) {
+        val isCategorySelected =
+            _selectedCategories.value.any { it.categoryNumber == categoryUiModel.categoryNumber }
+
+        if (checked && isCategorySelected.not()) {
+            _selectedCategories.value = _selectedCategories.value + categoryUiModel
+            return
+        }
+
+        if (checked.not() && isCategorySelected) {
+            _selectedCategories.value = _selectedCategories.value - categoryUiModel
+            return
+        }
+
     }
 }

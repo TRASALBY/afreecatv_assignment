@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="category"
             type="com.example.afreecatvassignment.ui.model.BroadCategoryUiModel" />
@@ -15,13 +16,14 @@
         android:layout_height="wrap_content">
 
         <CheckBox
-            android:id="@+id/cb_selected"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:id="@+id/cb_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:checked="false"
             android:clickable="false"
             android:text="@{category.categoryName}"
+            android:textColor="@color/black"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

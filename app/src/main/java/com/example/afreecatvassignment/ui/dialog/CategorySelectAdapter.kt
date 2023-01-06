@@ -9,11 +9,20 @@ import com.example.afreecatvassignment.R
 import com.example.afreecatvassignment.databinding.ItemCategoryCheckboxBindingImpl
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 
-class CategorySelectAdapter :
+class CategorySelectAdapter(
+    private val categoryChangeListener: CategoryChangeListener
+) :
     ListAdapter<BroadCategoryUiModel, CategorySelectAdapter.CategorySelectViewHolder>(diffUtil) {
 
+    interface CategoryChangeListener {
+        fun onCategoryChangeListener(category: BroadCategoryUiModel, checked: Boolean)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategorySelectViewHolder {
-        return CategorySelectViewHolder(parent)
+        return CategorySelectViewHolder(
+            categoryChangeListener,
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: CategorySelectViewHolder, position: Int) {
@@ -21,13 +30,22 @@ class CategorySelectAdapter :
     }
 
     class CategorySelectViewHolder(
+        categoryChangeListener: CategoryChangeListener,
         parent: ViewGroup
     ) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_category_checkbox, parent, false)
     ) {
         private val binding = ItemCategoryCheckboxBindingImpl.bind(itemView)
+        private lateinit var broadCategoryUiModel: BroadCategoryUiModel
+
+        init {
+            binding.cbCategory.setOnClickListener {
+                categoryChangeListener.onCategoryChangeListener(broadCategoryUiModel, binding.cbCategory.isChecked)
+            }
+        }
 
         fun bind(broadCategoryUiModel: BroadCategoryUiModel) {
+            this.broadCategoryUiModel = broadCategoryUiModel
             binding.category = broadCategoryUiModel
         }
     }
@@ -48,8 +66,5 @@ class CategorySelectAdapter :
                 return oldItem == newItem
             }
         }
-
     }
-
-
 }
