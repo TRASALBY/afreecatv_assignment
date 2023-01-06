@@ -11,5 +11,5 @@ data class BroadCategoryItem(
     @SerializedName("cate_name")
     val categoryName: String,
     @SerializedName("cate_no")
-    val categoryNumber: Int
+    val categoryNumber: String
 )

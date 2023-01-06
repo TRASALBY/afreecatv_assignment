@@ -18,9 +18,13 @@ class DataModule {
     @Provides
     @Singleton
     fun provideBroadRemoteRepository(
+        afreecaApiService: AfreecaApiService,
         broadRemoteDataSource: BroadRemoteDataSource
     ): BroadRemoteRepository {
-        return BroadRemoteRepositoryImpl(broadRemoteDataSource)
+        return BroadRemoteRepositoryImpl(
+            afreecaApiService,
+            broadRemoteDataSource
+        )
     }
 
     @Provides
