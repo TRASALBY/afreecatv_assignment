@@ -19,7 +19,7 @@
             android:id="@+id/cb_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checked="false"
+            android:checked="@{category.isSelected}"
             android:clickable="false"
             android:text="@{category.categoryName}"
             android:textColor="@color/black"

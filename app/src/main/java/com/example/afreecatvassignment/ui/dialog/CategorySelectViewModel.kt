@@ -20,9 +20,17 @@ class CategorySelectViewModel @Inject constructor(
     private val _selectedCategories = MutableStateFlow<List<BroadCategoryUiModel>>(emptyList())
     val selectedCategories = _selectedCategories.asStateFlow()
 
-    init {
+    fun setSelectedCategories(selectedCategoryNumbers: Array<String>) {
         viewModelScope.launch {
-            _categories.value = broadRemoteRepository.getCategoryList()
+            _categories.value = broadRemoteRepository.getCategoryList().map {
+                if (selectedCategoryNumbers.contains(it.categoryNumber)) {
+                    val newBroadCategoryUiModel = it.copy(isSelected = true)
+                    _selectedCategories.value += newBroadCategoryUiModel
+                    newBroadCategoryUiModel
+                } else {
+                    it
+                }
+            }
         }
     }
 
@@ -32,13 +40,16 @@ class CategorySelectViewModel @Inject constructor(
 
         if (checked && isCategorySelected.not()) {
             _selectedCategories.value = _selectedCategories.value + categoryUiModel
-            return
-        }
-
-        if (checked.not() && isCategorySelected) {
+        } else if (checked.not() && isCategorySelected) {
             _selectedCategories.value = _selectedCategories.value - categoryUiModel
-            return
         }
 
+        _categories.value = _categories.value.map {
+            if (it.categoryNumber == categoryUiModel.categoryNumber) {
+                it.copy(isSelected = it.isSelected.not())
+            } else {
+                it
+            }
+        }
     }
 }

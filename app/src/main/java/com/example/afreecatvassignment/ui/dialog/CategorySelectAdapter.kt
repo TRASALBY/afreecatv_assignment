@@ -40,7 +40,10 @@ class CategorySelectAdapter(
 
         init {
             binding.cbCategory.setOnClickListener {
-                categoryChangeListener.onCategoryChangeListener(broadCategoryUiModel, binding.cbCategory.isChecked)
+                categoryChangeListener.onCategoryChangeListener(
+                    broadCategoryUiModel,
+                    binding.cbCategory.isChecked
+                )
             }
         }
 

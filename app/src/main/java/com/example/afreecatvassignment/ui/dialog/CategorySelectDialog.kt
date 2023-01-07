@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.afreecatvassignment.R
 import com.example.afreecatvassignment.databinding.DialogCategorySelectBinding
+import com.example.afreecatvassignment.ui.broadlist.BroadListFragment.Companion.KEY_SELECTED_CATEGORY
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -49,9 +50,15 @@ class CategorySelectDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSelectedCategory()
         setRecyclerView()
         setCompletedBtn()
         observeCategories()
+    }
+
+    private fun initSelectedCategory() {
+        val selectedCategoryNumbers = arguments?.getStringArray(KEY_SELECTED_CATEGORY) ?: return
+        viewModel.setSelectedCategories(selectedCategoryNumbers)
     }
 
     private fun setCompletedBtn() {
@@ -72,9 +79,7 @@ class CategorySelectDialog(
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedCategories.collect {
-                    if (it.size >= MAX_SELECT_COUNT) {
-                        binding.btnSelectCategory.isEnabled = true
-                    }
+                    binding.btnSelectCategory.isEnabled = it.size >= MAX_SELECT_COUNT
                 }
             }
         }
