@@ -70,12 +70,12 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
             binding.tvPleaseCategorySelect.isVisible = true
         } else {
             binding.tvPleaseCategorySelect.isVisible = false
+
             val broadCategoryAdapter = BroadCategoryAdapter(this, categoryList)
             binding.viewpagerBroadList.adapter = broadCategoryAdapter
 
             TabLayoutMediator(
-                binding.tabBroadCategory,
-                binding.viewpagerBroadList
+                binding.tabBroadCategory, binding.viewpagerBroadList
             ) { tab, position ->
                 tab.text = categoryList[position].categoryName
             }.attach()
@@ -89,6 +89,6 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
 
     companion object {
         const val KEY_SELECTED_CATEGORY = "selected_category"
-        const val CATEGORY_SELECT_DIALOG ="categorySelectDialog"
+        const val CATEGORY_SELECT_DIALOG = "categorySelectDialog"
     }
 }
