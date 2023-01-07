@@ -7,4 +7,7 @@
     <string name="select_category_header">3개 이상의 카테고리를 선택해 주세요</string>
     <string name="category_select_complete">선택완료</string>
     <string name="please_category_select">아직 카테고리가 선택되지 않았어요.\n3개 이상의 카테고리를 선택 해 주세요</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="watch_broad">방송 보러 가기</string>
 </resources>
