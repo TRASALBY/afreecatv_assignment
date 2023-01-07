@@ -6,4 +6,5 @@
     <string name="view_count_format">%,d</string>
     <string name="select_category_header">3개의 카테고리를 선택해 주세요</string>
     <string name="category_select_complete">선택완료</string>
+    <string name="please_category_select">아직 카테고리가 선택되지 않았어요.\n3개 이상의 카테고리를 선택 해 주세요</string>
 </resources>
