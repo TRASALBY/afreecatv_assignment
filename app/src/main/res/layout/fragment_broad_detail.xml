@@ -5,20 +5,24 @@
 
     <data>
 
+        <variable
+            name="broad"
+            type="com.example.afreecatvassignment.ui.model.BroadUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingVertical="24dp"
         android:paddingHorizontal="16dp"
+        android:paddingVertical="24dp"
         tools:context=".ui.broaddetail.BroadDetailFragment">
 
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_bj_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +30,10 @@
 
             <ImageView
                 android:id="@+id/iv_bj_profile"
+                bind_image_url="@{broad.profileImage}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 tools:src="@drawable/ic_launcher_background" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -37,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
             android:gravity="center"
+            android:text="@{broad.userNickName}"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,10 +55,9 @@
             android:id="@+id/tv_bj_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
             android:gravity="center"
+            android:text="@{broad.userId}"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/iv_broad_thumb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_bj_name"
@@ -59,8 +65,10 @@
 
         <ImageView
             android:id="@+id/iv_broad_thumb"
+            bind_image_url="@{broad.broadThumb}"
+            android:layout_marginTop="60dp"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toTopOf="@id/tv_broad_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,9 +81,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="@{broad.broadTitle}"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_total_view_count"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_broad_thumb"
@@ -87,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
+            android:text="@{String.format(@string/view_count_format,broad.totalViewCount)}"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/drawable_start_viewer_24"
             app:layout_constraintBottom_toTopOf="@+id/btn_watch_broad"
@@ -99,7 +108,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/watch_broad"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_total_view_count" />
 
