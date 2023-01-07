@@ -35,7 +35,7 @@ class CategorySelectDialog(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.categorySelect)
+        setStyle(STYLE_NO_TITLE, R.style.categorySelectDialogStyle)
         isCancelable = true
     }
 
