@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.afreecatvassignment.R
 import com.example.afreecatvassignment.databinding.DialogCategorySelectBinding
 import com.example.afreecatvassignment.ui.broadlist.BroadListFragment.Companion.KEY_SELECTED_CATEGORY
+import com.example.afreecatvassignment.ui.common.UiState
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -71,15 +73,37 @@ class CategorySelectDialog(
     private fun observeCategories() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.categories.collect {
-                    categorySelectAdapter.submitList(it)
+                viewModel.categories.collect { uiState ->
+                    when (uiState) {
+                        is UiState.Success -> {
+                            categorySelectAdapter.submitList(uiState.item)
+                        }
+                        is UiState.Failure -> {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.error_fetching_message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            dismiss()
+                        }
+                        is UiState.NetworkFailure -> {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.error_network_message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            dismiss()
+                        }
+                        else -> {
+                        }
+                    }
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedCategories.collect {
-                    binding.btnSelectCategory.isEnabled = it.size >= MAX_SELECT_COUNT
+                    binding.btnSelectCategory.isEnabled = it.size >= MIN_SELECT_COUNT
                 }
             }
         }
@@ -96,6 +120,6 @@ class CategorySelectDialog(
 
 
     companion object {
-        const val MAX_SELECT_COUNT = 3
+        const val MIN_SELECT_COUNT = 3
     }
 }

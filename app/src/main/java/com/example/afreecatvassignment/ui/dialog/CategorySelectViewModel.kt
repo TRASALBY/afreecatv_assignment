@@ -1,13 +1,14 @@
 package com.example.afreecatvassignment.ui.dialog
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.afreecatvassignment.data.repository.BroadRemoteRepository
+import com.example.afreecatvassignment.ui.common.UiState
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class CategorySelectViewModel @Inject constructor(
     private val broadRemoteRepository: BroadRemoteRepository
 ) : ViewModel() {
-    private val _categories = MutableStateFlow<List<BroadCategoryUiModel>>(emptyList())
+    private val _categories = MutableStateFlow<UiState<List<BroadCategoryUiModel>>>(UiState.Loading)
     val categories = _categories.asStateFlow()
 
     private val _selectedCategories = MutableStateFlow<List<BroadCategoryUiModel>>(emptyList())
@@ -23,21 +24,28 @@ class CategorySelectViewModel @Inject constructor(
 
     fun setSelectedCategories(selectedCategoryNumbers: Array<String>) {
         viewModelScope.launch {
-            _categories.value = broadRemoteRepository.getCategoryList().map {
-                if (selectedCategoryNumbers.contains(it.categoryNumber)) {
-                    val newBroadCategoryUiModel = it.copy(isSelected = true)
-                    _selectedCategories.value += newBroadCategoryUiModel
-                    newBroadCategoryUiModel
-                } else {
-                    it
-                }
+            broadRemoteRepository.getCategoryList().catch {
+                //네트워크 에러 추가하기
+                _categories.value = UiState.Failure
+            }.collect { categoryList ->
+                _categories.value = UiState.Success(
+                    categoryList.map {
+                        if (selectedCategoryNumbers.contains(it.categoryNumber)) {
+                            val newBroadCategoryUiModel = it.copy(isSelected = true)
+                            _selectedCategories.value += newBroadCategoryUiModel
+                            newBroadCategoryUiModel
+                        } else {
+                            it
+                        }
+                    }
+                )
             }
         }
     }
 
     fun changeCategorySelected(categoryUiModel: BroadCategoryUiModel, checked: Boolean) {
         val nowCategory =
-            _selectedCategories.value.firstOrNull() { it.categoryNumber == categoryUiModel.categoryNumber }
+            _selectedCategories.value.firstOrNull { it.categoryNumber == categoryUiModel.categoryNumber }
         val isCategorySelected = nowCategory != null
 
         if (checked && isCategorySelected.not()) {
@@ -47,16 +55,16 @@ class CategorySelectViewModel @Inject constructor(
             _selectedCategories.value = _selectedCategories.value - nowCategory
         }
 
-        _categories.value = _categories.value.map {
-            if (it.categoryNumber == categoryUiModel.categoryNumber) {
-                it.copy(isSelected = it.isSelected.not())
-            } else {
-                it
-            }
+        if(_categories.value is UiState.Success) {
+            _categories.value = UiState.Success(
+                (_categories.value as UiState.Success<List<BroadCategoryUiModel>>).item.map {
+                    if (it.categoryNumber == categoryUiModel.categoryNumber) {
+                        it.copy(isSelected = it.isSelected.not())
+                    } else {
+                        it
+                    }
+                }
+            )
         }
-        Log.d(
-            "selectedCategory111",
-            "${_selectedCategories.value.map { "${it.categoryName},${it.categoryNumber}" }}"
-        )
     }
 }
