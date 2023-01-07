@@ -12,13 +12,15 @@
         android:layout_height="match_parent"
         tools:context=".ui.broadlist.BroadListFragment">
 
-        <com.google.android.material.tabs.TabLayout
+        <com.example.afreecatvassignment.ui.customtablayout.CustomTabLayout
             android:id="@+id/tab_broad_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabMode="scrollable"
+            app:tabMaxWidth="0dp"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager_broad_list"
@@ -29,5 +31,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_broad_category" />
 
+
+        <TextView
+            android:id="@+id/tv_please_category_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/please_category_select"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_broad_category" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_category_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_checklist"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
