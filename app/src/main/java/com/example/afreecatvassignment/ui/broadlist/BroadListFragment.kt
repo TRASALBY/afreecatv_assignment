@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.afreecatvassignment.databinding.FragmentBroadListBinding
 import com.example.afreecatvassignment.ui.broadlist.adapter.BroadCategoryAdapter
 import com.example.afreecatvassignment.ui.dialog.CategorySelectDialog
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectCompleteListener {
@@ -22,7 +27,8 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
         get() = checkNotNull(_binding) { "binding was accessed outside of view lifecycle" }
 
     private var categorySelectDialog: CategorySelectDialog? = null
-    private var selectedCategories: List<BroadCategoryUiModel> = emptyList()
+
+    private val broadListViewModel: BroadListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +40,7 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showCategorySelectDialog(emptyList())
+        observeSelectedCategories()
         setCategorySelectFab()
     }
 
@@ -56,13 +62,25 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
 
     private fun setCategorySelectFab() {
         binding.fabCategorySelect.setOnClickListener {
-            showCategorySelectDialog(selectedCategories)
+            showCategorySelectDialog(broadListViewModel.selectedCategories.value)
         }
     }
 
     override fun onCategorySelectComplete(categories: List<BroadCategoryUiModel>) {
-        selectedCategories = categories
-        setViewPager(selectedCategories)
+        broadListViewModel.setSelectedCategories(categories)
+    }
+
+    private fun observeSelectedCategories() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                broadListViewModel.selectedCategories.collect {
+                    if (it.isEmpty()) {
+                        showCategorySelectDialog(it)
+                    }
+                    setViewPager(it)
+                }
+            }
+        }
     }
 
     private fun setViewPager(categoryList: List<BroadCategoryUiModel>?) {
