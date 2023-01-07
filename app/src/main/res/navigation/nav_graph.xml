@@ -9,5 +9,20 @@
         android:id="@+id/broadListFragment"
         android:name="com.example.afreecatvassignment.ui.broadlist.BroadListFragment"
         android:label="BroadListFragment"
-        tools:layout="@layout/fragment_broad_list"/>
+        tools:layout="@layout/fragment_broad_list">
+        <action
+            android:id="@+id/action_broadListFragment_to_broadDetailFragment"
+            app:destination="@id/broadDetailFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/broadDetailFragment"
+        android:name="com.example.afreecatvassignment.ui.broaddetail.BroadDetailFragment"
+        android:label="BroadDetailFragment"
+        tools:layout="@layout/fragment_broad_detail">
+        <argument
+            android:name="broad"
+            app:argType="com.example.afreecatvassignment.ui.model.BroadUiModel"
+            app:nullable="false" />
+    </fragment>
 </navigation>
