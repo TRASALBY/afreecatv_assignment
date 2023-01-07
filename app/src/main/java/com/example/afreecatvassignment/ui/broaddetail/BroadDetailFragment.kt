@@ -1,5 +1,7 @@
 package com.example.afreecatvassignment.ui.broaddetail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +30,16 @@ class BroadDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.broad = args.broad
+        setWatchBroadBtn()
+    }
+
+    private fun setWatchBroadBtn() {
+        binding.btnWatchBroad.setOnClickListener {
+            val broad = args.broad
+            val broadUri = "http://play.afreecatv.com/${broad.userId}/${broad.broadNumber}"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(broadUri))
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
