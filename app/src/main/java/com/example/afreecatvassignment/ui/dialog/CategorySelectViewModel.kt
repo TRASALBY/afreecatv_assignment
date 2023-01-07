@@ -1,5 +1,6 @@
 package com.example.afreecatvassignment.ui.dialog
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.afreecatvassignment.data.repository.BroadRemoteRepository
@@ -35,13 +36,15 @@ class CategorySelectViewModel @Inject constructor(
     }
 
     fun changeCategorySelected(categoryUiModel: BroadCategoryUiModel, checked: Boolean) {
-        val isCategorySelected =
-            _selectedCategories.value.any { it.categoryNumber == categoryUiModel.categoryNumber }
+        val nowCategory =
+            _selectedCategories.value.firstOrNull() { it.categoryNumber == categoryUiModel.categoryNumber }
+        val isCategorySelected = nowCategory != null
 
         if (checked && isCategorySelected.not()) {
             _selectedCategories.value = _selectedCategories.value + categoryUiModel
         } else if (checked.not() && isCategorySelected) {
-            _selectedCategories.value = _selectedCategories.value - categoryUiModel
+            nowCategory ?: return
+            _selectedCategories.value = _selectedCategories.value - nowCategory
         }
 
         _categories.value = _categories.value.map {
@@ -51,5 +54,9 @@ class CategorySelectViewModel @Inject constructor(
                 it
             }
         }
+        Log.d(
+            "selectedCategory111",
+            "${_selectedCategories.value.map { "${it.categoryName},${it.categoryNumber}" }}"
+        )
     }
 }
