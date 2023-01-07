@@ -57,7 +57,7 @@ class BroadListFragment : Fragment(), CategorySelectDialog.CategorySelectComplet
     }
 
     private fun setViewPager(categoryList: List<BroadCategoryUiModel>) {
-        val broadCategoryAdapter = BroadCategoryAdapter(this)
+        val broadCategoryAdapter = BroadCategoryAdapter(this, categoryList)
         binding.viewpagerBroadList.adapter = broadCategoryAdapter
 
         TabLayoutMediator(binding.tabBroadCategory, binding.viewpagerBroadList) { tab, position ->
