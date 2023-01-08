@@ -9,6 +9,6 @@ fun setImageFromUrl(imageView: ImageView, url: String?) {
     if (url.isNullOrEmpty()) return
 
     Glide.with(imageView)
-        .load("https:$url")
+        .load(url)
         .into(imageView)
 }
