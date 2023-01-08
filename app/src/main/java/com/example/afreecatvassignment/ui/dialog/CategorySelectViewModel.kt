@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,19 +27,21 @@ class CategorySelectViewModel @Inject constructor(
         viewModelScope.launch {
             broadRemoteRepository.getCategoryList().catch {
                 //네트워크 에러 추가하기
-                _categories.value = UiState.Failure
+                _categories.update { UiState.Failure }
             }.collect { categoryList ->
-                _categories.value = UiState.Success(
-                    categoryList.map {
-                        if (selectedCategoryNumbers.contains(it.categoryNumber)) {
-                            val newBroadCategoryUiModel = it.copy(isSelected = true)
-                            _selectedCategories.value += newBroadCategoryUiModel
-                            newBroadCategoryUiModel
-                        } else {
-                            it
+                _categories.update {
+                    UiState.Success(
+                        categoryList.map {
+                            if (selectedCategoryNumbers.contains(it.categoryNumber)) {
+                                val newBroadCategoryUiModel = it.copy(isSelected = true)
+                                _selectedCategories.value += newBroadCategoryUiModel
+                                newBroadCategoryUiModel
+                            } else {
+                                it
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
@@ -56,15 +59,17 @@ class CategorySelectViewModel @Inject constructor(
         }
 
         if(_categories.value is UiState.Success) {
-            _categories.value = UiState.Success(
-                (_categories.value as UiState.Success<List<BroadCategoryUiModel>>).item.map {
-                    if (it.categoryNumber == categoryUiModel.categoryNumber) {
-                        it.copy(isSelected = it.isSelected.not())
-                    } else {
-                        it
+            _categories.update {
+                UiState.Success(
+                    (_categories.value as UiState.Success<List<BroadCategoryUiModel>>).item.map {
+                        if (it.categoryNumber == categoryUiModel.categoryNumber) {
+                            it.copy(isSelected = it.isSelected.not())
+                        } else {
+                            it
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
