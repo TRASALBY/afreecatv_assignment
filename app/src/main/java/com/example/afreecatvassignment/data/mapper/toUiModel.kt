@@ -24,8 +24,8 @@ fun PagingData<BroadItem>.toBroadUiModel(): PagingData<BroadUiModel> {
             broadNumber = it.broadNumber,
             userId = it.userId,
             userNickName = it.userNickName,
-            profileImage = it.profileImage,
-            broadThumb = it.broadThumb,
+            profileImage = "https:${it.profileImage}",
+            broadThumb = "https:${it.broadThumb}",
             totalViewCount = it.totalViewCount
         )
     }

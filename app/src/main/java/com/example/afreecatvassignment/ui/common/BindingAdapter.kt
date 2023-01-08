@@ -1,4 +1,4 @@
-package com.example.afreecatvassignment.ui
+package com.example.afreecatvassignment.ui.common
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -9,6 +9,6 @@ fun setImageFromUrl(imageView: ImageView, url: String?) {
     if (url.isNullOrEmpty()) return
 
     Glide.with(imageView)
-        .load("https:$url")
+        .load(url)
         .into(imageView)
 }

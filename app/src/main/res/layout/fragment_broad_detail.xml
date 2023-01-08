@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="broad"
-            type="com.example.afreecatvassignment.ui.model.BroadUiModel" />
+            name="viewModel"
+            type="com.example.afreecatvassignment.ui.broaddetail.BroadDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
 
             <ImageView
                 android:id="@+id/iv_bj_profile"
-                bind_image_url="@{broad.profileImage}"
+                bind_image_url="@{viewModel.broad.profileImage}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
             android:gravity="center"
-            android:text="@{broad.userNickName}"
+            android:text="@{viewModel.broad.userNickName}"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{broad.userId}"
+            android:text="@{viewModel.broad.userId}"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
 
         <ImageView
             android:id="@+id/iv_broad_thumb"
-            bind_image_url="@{broad.broadThumb}"
+            bind_image_url="@{viewModel.broad.broadThumb}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="@{broad.broadTitle}"
+            android:text="@{viewModel.broad.broadTitle}"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:text="@{String.format(@string/view_count_format,broad.totalViewCount)}"
+            android:text="@{String.format(@string/view_count_format,viewModel.broad.totalViewCount)}"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/drawable_start_viewer_24"
             app:layout_constraintBottom_toTopOf="@+id/btn_watch_broad"

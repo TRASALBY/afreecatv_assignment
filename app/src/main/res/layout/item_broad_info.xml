@@ -18,17 +18,20 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_broad_thumb"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H, 3:2"
+            app:layout_constraintEnd_toStartOf="@id/tv_broad_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5">
 
             <ImageView
                 android:id="@+id/iv_broad_thumb"
                 bind_image_url="@{broad.broadThumb}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 tools:src="@drawable/ic_launcher_background" />
         </com.google.android.material.card.MaterialCardView>

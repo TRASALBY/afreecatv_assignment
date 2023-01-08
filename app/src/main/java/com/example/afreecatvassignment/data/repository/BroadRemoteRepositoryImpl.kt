@@ -11,7 +11,6 @@ import com.example.afreecatvassignment.data.mapper.toBroadUiModel
 import com.example.afreecatvassignment.ui.model.BroadCategoryUiModel
 import com.example.afreecatvassignment.ui.model.BroadUiModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -20,15 +19,8 @@ class BroadRemoteRepositoryImpl @Inject constructor(
     private val broadRemoteDataSource: BroadRemoteDataSource
 ) : BroadRemoteRepository {
     override fun getCategoryList(): Flow<List<BroadCategoryUiModel>> {
-        return flow {
-            runCatching {
-                broadRemoteDataSource.getCategoryList()
-            }.onSuccess {
-                emit(it.toBroadCategoryUiModel())
-            }.onFailure { exception ->
-                throw exception
-            }
-        }
+        return broadRemoteDataSource.getCategoryList()
+            .map { it.toBroadCategoryUiModel() }
     }
 
     override fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>> =
@@ -43,6 +35,6 @@ class BroadRemoteRepositoryImpl @Inject constructor(
         }
 
     companion object {
-        private const val PAGE_SIZE = 20
+        const val PAGE_SIZE = 20
     }
 }
