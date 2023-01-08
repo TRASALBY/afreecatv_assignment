@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.afreecatvassignment.data.api.AfreecaApiService
 import com.example.afreecatvassignment.data.model.BroadItem
+import com.example.afreecatvassignment.data.repository.BroadRemoteRepositoryImpl.Companion.PAGE_SIZE
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class BroadRemotePagingSource @Inject constructor(
             LoadResult.Page(
                 data = response.broadItemList,
                 prevKey = if (start == STARTING_KEY) null else start - 1,
-                nextKey = if (response.page * 20 > response.totalCount) {
+                nextKey = if (response.page * PAGE_SIZE > response.totalCount) {
                     null
                 } else {
                     start + 1

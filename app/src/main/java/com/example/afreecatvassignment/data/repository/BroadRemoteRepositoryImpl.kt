@@ -35,6 +35,6 @@ class BroadRemoteRepositoryImpl @Inject constructor(
         }
 
     companion object {
-        private const val PAGE_SIZE = 20
+        const val PAGE_SIZE = 20
     }
 }
