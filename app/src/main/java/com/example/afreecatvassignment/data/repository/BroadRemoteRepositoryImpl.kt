@@ -19,14 +19,14 @@ class BroadRemoteRepositoryImpl @Inject constructor(
     private val apiService: AfreecaApiService,
     private val broadRemoteDataSource: BroadRemoteDataSource
 ) : BroadRemoteRepository {
-    override suspend fun getCategoryList(): Flow<List<BroadCategoryUiModel>> {
+    override fun getCategoryList(): Flow<List<BroadCategoryUiModel>> {
         return flow {
             runCatching {
                 broadRemoteDataSource.getCategoryList()
             }.onSuccess {
                 emit(it.toBroadCategoryUiModel())
-            }.onFailure { throwable ->
-                throw throwable
+            }.onFailure { exception ->
+                throw exception
             }
         }
     }

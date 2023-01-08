@@ -7,7 +7,10 @@ import androidx.paging.cachedIn
 import com.example.afreecatvassignment.data.repository.BroadRemoteRepository
 import com.example.afreecatvassignment.ui.model.BroadUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +18,16 @@ class CategoryBroadListViewModel @Inject constructor(
     private val broadRemoteRepository: BroadRemoteRepository
 ) : ViewModel() {
 
-    fun getBroadList(categoryNumber: String): Flow<PagingData<BroadUiModel>> {
-        return broadRemoteRepository.getBroadList(categoryNumber).cachedIn(viewModelScope)
+    private val _broadList = MutableStateFlow<PagingData<BroadUiModel>>(PagingData.empty())
+    val broadList = _broadList.asStateFlow()
+
+    fun getBroadList(categoryNumber: String) {
+        viewModelScope.launch {
+            broadRemoteRepository.getBroadList(categoryNumber)
+                .cachedIn(viewModelScope)
+                .collectLatest {
+                    _broadList.value = it
+                }
+        }
     }
 }
