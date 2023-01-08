@@ -1,4 +1,4 @@
-package com.example.afreecatvassignment.ui
+package com.example.afreecatvassignment.ui.common
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
