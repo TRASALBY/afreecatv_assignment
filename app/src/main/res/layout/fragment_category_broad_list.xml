@@ -29,6 +29,19 @@
                 tools:itemCount="5"
                 tools:listitem="@layout/item_broad_info" />
 
+            <TextView
+                android:id="@+id/tv_broad_list_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:text="@string/please_check_network"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/pi_category_broad"
                 android:layout_width="0dp"

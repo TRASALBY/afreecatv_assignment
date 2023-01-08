@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,9 +26,13 @@ class CategorySelectViewModel @Inject constructor(
 
     fun setSelectedCategories(selectedCategoryNumbers: Array<String>) {
         viewModelScope.launch {
-            broadRemoteRepository.getCategoryList().catch {
-                //네트워크 에러 추가하기
-                _categories.update { UiState.Failure }
+            broadRemoteRepository.getCategoryList().catch { exception ->
+                _categories.update {
+                    when (exception) {
+                        is UnknownHostException -> UiState.NetworkFailure
+                        else -> UiState.Failure
+                    }
+                }
             }.collect { categoryList ->
                 _categories.update {
                     UiState.Success(
@@ -58,7 +63,7 @@ class CategorySelectViewModel @Inject constructor(
             _selectedCategories.value = _selectedCategories.value - nowCategory
         }
 
-        if(_categories.value is UiState.Success) {
+        if (_categories.value is UiState.Success) {
             _categories.update {
                 UiState.Success(
                     (_categories.value as UiState.Success<List<BroadCategoryUiModel>>).item.map {
