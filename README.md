@@ -21,13 +21,12 @@
 - 페이징 기능으로 다음 페이지를 하단에 추가
 - 방송 클릭시 상세페이지로 이동
 
-
 ## 실행 화면
 <details>
 <summary>카테고리 선택</summary>
 <div>
 
-https://user-images.githubusercontent.com/54586491/211194871-5e52b3b1-ec48-4e97-9ac9-6984e402dc9e.mp4
+https://user-images.githubusercontent.com/54586491/211201167-94c39143-2b99-464b-a023-05cb8c90ea5b.mp4
 
 </div>
 </details>
@@ -67,8 +66,6 @@ https://user-images.githubusercontent.com/54586491/211194847-b3442f3b-9962-4092-
 
 </div>
 </details>
-
-
 
 ## 기술적 고민
 ### 카테고리를 어떻게 선택 할 것인가.
@@ -118,7 +115,8 @@ fun setSelectedCategories(selectedCategoryNumbers: Array<String>) {
     }
 }
 ```
-- api를 통해 구해진 categoryList에서 프래그먼트로부터 전달받은 이전에 선택된 카테고리 값을 categoryNumber를 통해 구하여 _selectedCategories값을 갱신
+- api를 통해 구해진 categoryList에서 프래그먼트로부터 전달받은 이전에 선택된 카테고리 값을 categoryNumber를 통해 구하여 selectedCategories를 갱신 
+
 ```kotlin
 //CategorySelectViewModel.kt
 fun changeCategorySelected(categoryUiModel: BroadCategoryUiModel, checked: Boolean) {
@@ -151,8 +149,8 @@ fun changeCategorySelected(categoryUiModel: BroadCategoryUiModel, checked: Boole
 - 새로운 카테고리가 선택 될 때마다 추가 혹은 삭제를 진행
 
 ### TabLayout 커스텀
-- 카테고리 개수가 유동적으로 변하게 되었으므로 TabLayout의 탭의 개수도 따라서 변경
-- 카테고리의 개수가 많아지게 되면 TabMode를 scrollable로 두어 이동할 수 있도록 할 필요가 발생
+- 카테고리 개수가 사용자의 선택에 따라 동적으로 변하게 기 때문에 TabLayout의 탭의 개수도 따라서 변경
+- 카테고리의 개수가 많아지게 되면 TabMode를 scrollable로 두어 이동할 수 있도록 할 필요가 생김
 - TabMode가 scrollable일 경우 카테고리의 개수가 적을 때에는 공백이 생기는 문제가 발생
 
 ```kotlin
