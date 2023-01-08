@@ -5,8 +5,6 @@ import androidx.paging.PagingState
 import com.example.afreecatvassignment.data.api.AfreecaApiService
 import com.example.afreecatvassignment.data.model.BroadItem
 import kotlinx.coroutines.delay
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class BroadRemotePagingSource @Inject constructor(
@@ -32,9 +30,7 @@ class BroadRemotePagingSource @Inject constructor(
                     start + 1
                 }
             )
-        } catch (e: IOException) {
-            LoadResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
